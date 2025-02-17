@@ -56,23 +56,45 @@
 
                 }
             }
-            .language-vi{
+            .language-vi {
                 cursor: pointer;
-                &.active{
-                    color: orange;
-                }
-            }
-            .language-en{
-                margin: 0 10px;
-                cursor: pointer;
+                opacity: 0.2;
 
                 &.active{
-                    color: blue;
+                    opacity: 1;
+
+                    span{
+                        color: orange;
+                    }
                 }
+                &:hover{
+                    opacity: 0.8;
+                }
+                // &:hover {
+                //     color: orange;
+                //     opacity: 1;
+                // }
+
+            }
+            .language-en {
+                cursor: pointer;
+                opacity: 0.2;
+
+                &.active{
+                    opacity: 1;
+
+                    span{
+                        color: blue;
+                    }
+                }
+                &:hover{
+                    opacity: 0.8;
+                }
+            } 
             }
         }
     }
-}
+
 .home-header-banner{
     background: url("../../assets/booking.jpg") ;
     height: 515px;
@@ -131,6 +153,7 @@
         align-items: flex-end;
         justify-content: center;
         background-image: linear-gradient(rgba(126,126,126,0.9), rgba(255,255,255,1));
+        padding-bottom: 10px;
 
     .options{
        display: flex;
