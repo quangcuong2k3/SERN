@@ -1,0 +1,4 @@
+bat file doanSERN + reactjs( cau git)+ post man + php
+localhost 3000 
+8080
+phpadmin
