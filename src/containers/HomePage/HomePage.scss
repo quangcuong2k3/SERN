@@ -26,7 +26,9 @@
         background: #eceaea !important;
     }
 }
-
+.slick-disabled{
+    display: none !important;
+}
 
 .section-share{
     &.section-specialty{
@@ -57,11 +59,10 @@
                     background-image: url("../../assets//medical-facility/bvvietduc.jpg");
                 }
                 &.section-outstanding-doctor{
-                    background-image: url("../../assets/outstandingdoctor/doctor.png");
+                    // background-image: url("../../assets/outstandingdoctor/doctor.png");
                     width: 120px;
                     height: 120px;
                     border-radius:50% ;
-                    border: 1px solid red;
                 }
                 &.section-handbook{
                     background-image: url("../../assets/handbook/handbook.jpg");
