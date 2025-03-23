@@ -19,13 +19,16 @@
     }
     .content-down{
         .short-infor{
-            span{
+            .detail{
                 cursor: pointer;
                 color: rgb(23, 116, 246);
             }
+            .currency{
+                margin: 0 5px;
+            }
         }
         .title-price{
-
+            margin-bottom: 10px;
         }
         .detail-infor{
             border: 1px solid #ddd;

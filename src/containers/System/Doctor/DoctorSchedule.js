@@ -83,7 +83,6 @@ class DoctorSchedule extends Component {
                 })
 
             }
-            console.log("check res schedule from react ", res)
         }
     }
     render() {
