@@ -1,6 +1,6 @@
 import db from "../models/index"
 require('dotenv').config();
-import _ from 'lodash';
+import _, { includes } from 'lodash';
 
 const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
 let getTopDoctorHome = (limitInput) => {
@@ -150,6 +150,18 @@ let getDetailDoctorById = (inputId) => {
                             attributes: ['description', 'contentHTML', 'contentMarkdown']
                         },
                         { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
+                        {
+                            model: db.Doctor_Infor,
+                            attributes: {
+                                exclude: ['id', 'doctorId']
+                            },
+                            includes: [
+                                { model: db.Allcode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi'] },
+                                { model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi'] },
+                                { model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi'] },
+
+                            ]
+                        },
                     ],
                     raw: false,
                     nest: true
@@ -158,6 +170,7 @@ let getDetailDoctorById = (inputId) => {
                     data.image = new Buffer(data.image, 'base64').toString('binary')
                 }
                 if (!data) data = {};
+
                 resolve({
                     errCode: 0,
                     data: data
