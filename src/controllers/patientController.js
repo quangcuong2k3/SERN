@@ -1,0 +1,20 @@
+import patientServices from '../services/patientServices'
+
+let postBookAppointment = async (req, res) => {
+    try {
+        let infor = await patientServices.postBookAppointment(req.body);
+        return res.status(200).json(
+            infor
+        )
+    } catch (e) {
+        console.log(e)
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: "error from the server"
+        })
+    }
+}
+
+module.exports = {
+    postBookAppointment: postBookAppointment
+}
