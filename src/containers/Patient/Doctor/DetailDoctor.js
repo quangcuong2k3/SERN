@@ -37,7 +37,6 @@ class DetailDoctor extends Component {
     }
 
     render() {
-        console.log("check chanel: state", this.state)
         let { language } = this.props;
         let { detailDoctor } = this.state;
         let nameVi = '', nameEn = '';
@@ -53,7 +52,7 @@ class DetailDoctor extends Component {
                 <div className='doctor-detail-container'>
                     <div className='intro-doctor'>
                         <div className='content-left'
-                            style={{ backgroundImage: `url("${detailDoctor.image && detailDoctor.image ? detailDoctor.image : ''}")` }}
+                            style={{ backgroundImage: `url("${detailDoctor && detailDoctor.image ? detailDoctor.image : ''}")` }}
                         >
 
                         </div>
