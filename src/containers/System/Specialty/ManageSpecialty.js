@@ -70,7 +70,6 @@ class ManageSpecialty extends Component {
             toast.error("Something wrong");
             console.log("check res: ", res)
         }
-        console.log("check state", this.state)
     }
     render() {
 

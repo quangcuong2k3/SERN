@@ -1,6 +1,6 @@
 {
     "homeheader": {
-        "speciality": "Medical speciality",
+        "specialty": "Medical speciality",
         "searchdoctor": "Find a doctor by specialty",
         "health-facitivy": "Medical facility",
         "select-room": "Choose hospital clinic",
@@ -106,7 +106,9 @@
             "province": "Province",
             "nameClinic": "Clinic's name",
             "addressClinic": "Clinic's address",
-            "note": "Note"
+            "note": "Note",
+            "specialty": "Specialty",
+            "select-clinic": "Clinic"
         }
     }
 }
