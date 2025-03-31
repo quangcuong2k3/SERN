@@ -1,3 +1,4 @@
+import { first } from "lodash";
 import db from "../models/index"
 require('dotenv').config();
 import emailService from '../services/emailService';
@@ -12,7 +13,8 @@ let postBookAppointment = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (!data.email || !data.doctorId || !data.timeType || !data.date
-                || !data.fullName
+
+                || !data.fullName || !data.selectedGender || !data.address
             ) {
                 resolve({
                     errCode: 1,
@@ -35,17 +37,20 @@ let postBookAppointment = (data) => {
                     where: { email: data.email },
                     defaults: {
                         email: data.email,
-                        roleId: 'R3'
+                        roleId: 'R3',
+                        gender: data.selectedGender,
+                        address: data.address,
+                        firstName: data.fullName
                     },
                 });
                 //create a booking record
                 if (user && user[0]) {
                     await db.Booking.findOrCreate({
-                        where: { patienId: user[0].id },
+                        where: { patientId: user[0].id },
                         defaults: {
                             statusId: 'S1',
                             doctorId: data.doctorId,
-                            patienId: user[0].id,
+                            patientId: user[0].id,
                             date: data.date,
                             timeType: data.timeType,
                             token: token
