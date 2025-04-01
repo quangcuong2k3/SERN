@@ -1,5 +1,10 @@
+div._loading_overlay_wrapper {
+  position: unset;
+  ._loading_overlay_overlay{
+    z-index: 1000000;
+  }
+  }
 .manage-patient-container{
-
     .m-p-title{
         font-size: 15px;
         margin: 10px 0;
@@ -28,12 +33,7 @@
                 border: radius 3px; 
                 background: orange;
               }
-              .mp-btn-remedy{
-               
-                height: 30px;
-                border: radius 3px; 
-                background: #34dca0;
-              }
+        
         }
     }   
 }
