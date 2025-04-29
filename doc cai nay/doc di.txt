@@ -1,0 +1,6 @@
+https://docs.google.com/spreadsheets/d/175ts9y-bJGAwEUtVEFojJQ4nFCH_lIU0poA0wVjM_lk/edit?gid=1503573881#gid=1503573881
+link excel
+
+http://localhost:3000/system/user-redux
+nếu mất hết file thì nhập file excel trước ( video 78)
+r vô link trên (redux) để tạo quản trị hay bác sĩ trước rồi sẽ làm dc
