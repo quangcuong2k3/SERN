@@ -1,5 +1,6 @@
 import db from "../models/index"
 import bcrypt from 'bcryptjs';
+
 const salt = bcrypt.genSaltSync(10);
 
 
@@ -216,6 +217,136 @@ let getAllCodeService = (typeInput) => {
         }
     })
 }
+// === Định nghĩa hàm checkEmailExists tại đây ===
+let checkEmailExists = async (email) => {
+    try {
+        const domain = email.split('@')[1];
+        const mxRecords = await resolveMx(domain);
+        if (!mxRecords || mxRecords.length === 0) {
+            throw new Error('No MX records found for this email domain');
+        }
+        return true;
+    } catch (err) {
+        console.error('Error checking MX records:', err.message);
+        throw new Error('Không tìm thấy địa chỉ email này!');
+    }
+};
+let postPatientBookingAppointment = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Validate email
+            if (!data.email) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Vui lòng nhập email!'
+                });
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@gmail\.com$/;
+            if (!emailRegex.test(data.email)) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Email không hợp lệ! Phải là email Gmail (ví dụ: ten@gmail.com).'
+                });
+                return;
+            }
+
+            // Kiểm tra email bằng email-validator
+            if (!emailValidator.validate(data.email)) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Email không hợp lệ!'
+                });
+                return;
+            }
+
+            // Kiểm tra email có tồn tại trong hệ thống không
+            let isExist = await checkUserEmail(data.email);
+            if (!isExist) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Email không tồn tại trong hệ thống. Vui lòng đăng ký tài khoản trước!'
+                });
+                return;
+            }
+
+            // Kiểm tra email có thực sự tồn tại không (dùng MX records)
+            const emailExists = await checkEmailExists(data.email);
+            if (!emailExists) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Không tìm thấy địa chỉ email này!'
+                });
+                return;
+            }
+
+            // Lấy thông tin bệnh nhân
+            let patient = await db.User.findOne({
+                where: { email: data.email },
+                raw: true
+            });
+
+            if (!patient) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Không tìm thấy bệnh nhân với email này!'
+                });
+                return;
+            }
+
+            let token = uuidv4();
+            // Lưu dữ liệu vào bảng Booking
+            let booking = await db.Booking.create({
+                statusId: 'S1',
+                doctorId: data.doctorId,
+                patientId: patient.id,
+                date: data.date,
+                timeType: data.timeType,
+                reason: data.reason,
+                token: token
+            });
+
+            // Gửi email xác nhận đặt lịch tới email người dùng
+            const msg = {
+                to: data.email,
+                from: 'your_email@example.com', // Thay bằng email của bạn
+                subject: 'Xác nhận đặt lịch khám',
+                text: `Vui lòng xác nhận đặt lịch khám tại link: http://localhost:3000/verify-booking?token=${token}&doctorId=${data.doctorId}`,
+                html: `<p>Vui lòng xác nhận đặt lịch khám tại <a href="http://localhost:3000/verify-booking?token=${token}&doctorId=${data.doctorId}">đây</a></p>`,
+            };
+
+            try {
+                await sgMail.send(msg);
+            } catch (err) {
+                console.error('Error sending booking confirmation email:', err);
+                // Xóa bản ghi vừa tạo nếu gửi email thất bại
+                await db.Booking.destroy({
+                    where: { id: booking.id }
+                });
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Không thể gửi email xác nhận. Vui lòng thử lại!'
+                });
+                return;
+            }
+
+            resolve({
+                errCode: 0,
+                errMessage: 'Đặt lịch thành công! Vui lòng kiểm tra email để xác nhận.'
+            });
+        } catch (e) {
+            console.error('Error in postPatientBookingAppointment:', e);
+            resolve({
+                errCode: 1,
+                errMessage: 'Có lỗi xảy ra khi đặt lịch. Vui lòng thử lại!'
+            });
+        }
+    });
+};
+
+
+
 module.exports = {
     handleUserLogin: handleUserLogin,
     getAllUsers: getAllUsers,
@@ -223,4 +354,6 @@ module.exports = {
     deleteUser: deleteUser,
     updateUserData: updateUserData,
     getAllCodeService: getAllCodeService,
+    postPatientBookingAppointment: postPatientBookingAppointment,
+
 }
