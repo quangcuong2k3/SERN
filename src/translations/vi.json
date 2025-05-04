@@ -41,6 +41,7 @@
         }
     },
     "manage-user": {
+        "title": "Tạo mới users",
         "add": "Thêm mới người dùng",
         "email": "Email",
         "password": "Mật khẩu",
@@ -53,7 +54,9 @@
         "role": "Vai trò",
         "image": "Ảnh đại diện",
         "save": "Lưu người dùng",
-        "edit": "Lưu thay đổi"
+        "edit": "Lưu thay đổi",
+        "manage_users": "Quản lý người dùng",
+        "add_new_users": "Thêm người dùng mới"
     },
     "homepage": {
         "outstanding-doctor": "Bác sĩ nổi bật tuần qua",
@@ -86,7 +89,7 @@
             "phoneNumber": "Số điện thoại",
             "email": "Địa chỉ email",
             "address": "Địa chỉ liên lạc",
-            "reason": "Lí do khám",
+            "reason": "Triệu chứng",
             "birthday": "Ngày sinh",
             "gender": "Giới tính",
             "btnConfirm": "Xác nhận",

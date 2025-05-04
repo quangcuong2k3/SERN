@@ -30,8 +30,9 @@ div._loading_overlay_wrapper {
               .mp-btn-confirm{
                 margin-right: 10px;
                 height: 30px;
-                border: radius 3px; 
+                border-radius: 3px;
                 background: orange;
+                color: white; /* Thêm màu chữ cho nút */
               }
         
         }

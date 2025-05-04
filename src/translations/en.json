@@ -41,6 +41,7 @@
         }
     },
     "manage-user": {
+        "title": "Add new users",
         "add": "Add a new user",
         "email": "Email",
         "password": "Password",
@@ -53,7 +54,9 @@
         "role": "Role",
         "image": "Avatar",
         "save": "Save user",
-        "edit": "Edit user"
+        "edit": "Edit user",
+        "manage_users": "Manage users",
+        "add_new_users": "Add new users"
     },
     "homepage": {
         "outstanding-doctor": "Featured Doctor of the Week",

@@ -138,33 +138,43 @@ class ManagePatient extends Component {
                                             <th>Giới tính</th>
                                             <th>Actions</th>
                                         </tr>
-                                        {dataPatient && dataPatient.length > 0 ?
+                                        {dataPatient && dataPatient.length > 0 ? (
                                             dataPatient.map((item, index) => {
-                                                let time = language === LANGUAGES.VI ?
-                                                    item.timeTypeDataPatient.valueVi : item.timeTypeDataPatient.valueEn;
-                                                let gender = language === LANGUAGES.VI ?
-                                                    item.patientData.genderData.valueVi : item.patientData.genderData.valueEn
+                                                // Sử dụng optional chaining để tránh lỗi null
+                                                let time = language === LANGUAGES.VI
+                                                    ? item?.timeTypeDataPatient?.valueVi
+                                                    : item?.timeTypeDataPatient?.valueEn;
+
+                                                let gender = language === LANGUAGES.VI
+                                                    ? item?.patientData?.genderData?.valueVi || 'Không xác định'
+                                                    : item?.patientData?.genderData?.valueEn || 'Unknown';
+
+                                                let firstName = item?.patientData?.firstName || 'N/A';
+                                                let address = item?.patientData?.address || 'N/A';
+
                                                 return (
                                                     <tr key={index}>
-                                                        <td> {index + 1}</td>
+                                                        <td>{index + 1}</td>
                                                         <td>{time}</td>
-                                                        <td>{item.patientData.firstName}</td>
-                                                        <td>{item.patientData.address}</td>
+                                                        <td>{firstName}</td>
+                                                        <td>{address}</td>
                                                         <td>{gender}</td>
                                                         <td>
-                                                            <button className='mp-btn-confirm'
-                                                                onClick={() => this.handleBtnConfirm(item)}>Xác nhận</button>
-
+                                                            <button
+                                                                className='mp-btn-confirm'
+                                                                onClick={() => this.handleBtnConfirm(item)}
+                                                            >
+                                                                Xác nhận
+                                                            </button>
                                                         </td>
                                                     </tr>
-                                                )
+                                                );
                                             })
-                                            :
+                                        ) : (
                                             <tr>
                                                 <td colSpan='6' style={{ textAlign: 'center' }}>no data</td>
                                             </tr>
-                                        }
-
+                                        )}
                                     </tbody>
                                 </table>
                             </div>

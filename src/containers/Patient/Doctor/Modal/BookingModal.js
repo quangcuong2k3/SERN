@@ -117,12 +117,67 @@ class BookingModal extends Component {
         }
         return ''
     }
+    // handleConfirmBooking = async () => {
+    //     //validate input
+    //     // (!data.email || !data.doctorId || !data.timeType || !data.date)
+    //     this.setState({
+    //         isShowLoading: true
+    //     })
+    //     let date = new Date(this.state.birthday).getTime();
+    //     let timeString = this.buildTimeBooking(this.props.dataTime);
+    //     let doctorName = this.buildDoctorName(this.props.dataTime);
+
+    //     let res = await postPatientBookingAppointment({
+    //         fullName: this.state.fullName,
+    //         phoneNumber: this.state.phoneNumber,
+    //         email: this.state.email,
+    //         address: this.state.address,
+    //         reason: this.state.reason,
+    //         date: this.props.dataTime.date,
+    //         birthday: date,
+    //         selectedGender: this.state.selectedGender.value,
+    //         doctorId: this.state.doctorId,
+    //         timeType: this.state.timeType,
+    //         language: this.props.language,
+    //         timeString: timeString,
+    //         doctorName: doctorName
+    //     })
+    //     this.setState({
+    //         isShowLoading: false
+    //     })
+    //     if (res && res.errCode === 0) {
+    //         toast.success("Booking a new appointment succed!")
+    //         this.props.closeBookingModal();
+    //     } else {
+    //         toast.error("Booking a new appointment error!")
+    //     }
+    // }
     handleConfirmBooking = async () => {
-        //validate input
-        // (!data.email || !data.doctorId || !data.timeType || !data.date)
+        // Kiểm tra số điện thoại
+        const phoneNumber = this.state.phoneNumber;
+        const phoneRegex = /^0\d{9,10}$/; // Số điện thoại phải bắt đầu bằng 0, dài 10-11 số
+
+        if (!phoneNumber) {
+            toast.error('Vui lòng nhập số điện thoại!');
+            return;
+        }
+
+        if (!phoneRegex.test(phoneNumber)) {
+            toast.error('Số điện thoại không hợp lệ! Phải bắt đầu bằng 0 và có 10-11 số.');
+            return;
+        }
+
+        // Kiểm tra các trường bắt buộc khác
+        if (!this.state.email || !this.state.doctorId || !this.state.timeType || !this.props.dataTime.date) {
+            toast.error('Thiếu thông tin bắt buộc! Vui lòng kiểm tra lại.');
+            return;
+        }
+
+        // Hiển thị loading
         this.setState({
             isShowLoading: true
-        })
+        });
+
         let date = new Date(this.state.birthday).getTime();
         let timeString = this.buildTimeBooking(this.props.dataTime);
         let doctorName = this.buildDoctorName(this.props.dataTime);
@@ -141,18 +196,21 @@ class BookingModal extends Component {
             language: this.props.language,
             timeString: timeString,
             doctorName: doctorName
-        })
+        });
+
+        // Tắt loading
         this.setState({
             isShowLoading: false
-        })
+        });
+
         if (res && res.errCode === 0) {
-            toast.success("Booking a new appointment succed!")
+            toast.success("Đặt lịch thành công! Vui lòng kiểm tra email để xác nhận.");
             this.props.closeBookingModal();
         } else {
-            toast.error("Booking a new appointment error!")
+            toast.error(res.errMessage || "Đặt lịch thất bại! Vui lòng thử lại.");
+            // Không đóng modal nếu có lỗi
         }
     }
-
     render() {
         let { isOpenModal, closeBookingModal, dataTime } = this.props;
         let doctorId = '';

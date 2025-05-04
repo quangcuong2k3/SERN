@@ -118,12 +118,14 @@ class UserManage extends Component {
                     />
                 }
 
-                <div className='title text-center'>Manage users with C </div>
+                <div className='title text-center'>
+                    <FormattedMessage id="manage-user.manage_users" /> </div>
                 <div className='mx-1'>
                     <button
                         className='btn btn-primary px-3'
                         onClick={() => this.handleAddNewUser()}
-                    ><i className="fas fa-plus"></i> Add new users </button>
+                    ><i className="fas fa-plus"></i>
+                        <FormattedMessage id="manage-user.add_new_users" /> </button>
                 </div>
                 <div className='user-table mt-3 mx-1'>
                     <table id="customers">
